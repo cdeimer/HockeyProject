@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My Fabric.js Hockey Rink Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      var canvas = new fabric.Canvas('canvas');
+      fabric.Image.fromURL('https://upload.wikimedia.org/wikipedia/commons/d/dd/HockeyRink-Zones.png', function(img) {
+        canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+      });
+      canvas.on('mouse:down', function(options) {
+        if (options.target === null) {
+          var circle = new fabric.Circle({
+            radius: 10,
+            fill: 'red',
+            left: options.e.clientX - canvas._offset.left,
+            top: options.e.clientY - canvas._offset.top
+          });
+          canvas.add(circle);
+        }
+      });
+    </script>
+  </body>
+</html>
