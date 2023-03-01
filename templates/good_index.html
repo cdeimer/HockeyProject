@@ -2,13 +2,37 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>My Fabric.js Hockey Rink Example</title>
+    <title>Hockey Project</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
   </head>
   <body>
-    <svg width="80%" height="34%" viewbox="-1000 -425 2000 850" id="hockey_rink">
-        <rect x="-1000" y="-425" width="100%" height="100%" style="fill:rgb(237, 237, 255);stroke-width:3;stroke:black"/>
-    </svg>
+    <h1>Hockey Shot Tracker</h1>
+
+    <div class="hockey_canvas">
+      <svg width="80%" height="34%" viewbox="-1000 -425 2000 850" id="hockey_rink">
+          <rect x="-1000" y="-425" rx="100" ry="100" width="100%" height="100%" style="fill:rgb(237, 237, 255);stroke-width:3;stroke:black"/>
+          <line x1="0" y1="-425" x2="0" y2="425" style="stroke:red;stroke-width:3"/>
+          <circle cx="0" cy="0" r="150" stroke="blue" stroke-width="3" fill="none"/>
+          <line x1="300" y1="-425" x2="300" y2="425" style="stroke:blue;stroke-width:3"/>
+          <line x1="-300" y1="-425" x2="-300" y2="425" style="stroke:blue;stroke-width:3"/>
+          <line x1="900" y1="-425" x2="900" y2="425" style="stroke:red;stroke-width:3"/>
+          <line x1="-900" y1="-425" x2="-900" y2="425" style="stroke:red;stroke-width:3"/>
+          <rect x="-943" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey"/>
+          <rect x="903" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey"/>
+      </svg>
+    </div>
+    <div class="input_form">
+      <form action="/save_chart" method="post">
+        <input type="hidden" name="shot_coordinates" id="shot_coordinates">
+        <label for="chart_name">Chart Name:</label>
+        <input type="text" name="chart_name" id="chart_name">
+        <br>
+        <label for="chart_date">Chart Date:</label>
+        <input type="date" name="chart_date" id="chart_date">
+        <br>
+        <input type="submit" value="Save Chart">
+      </form>
+    </div>
     <script>
 
         var hockey_rink = document.getElementById("hockey_rink");
