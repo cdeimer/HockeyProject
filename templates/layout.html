@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        <meta charset="utf-8">
+        <title>{% block title %}Hockey Project{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css')}}">
+        {% endblock %}
+    </head>
+    <body>
+        <div id="header">
+            {% block header %}
+                <h1>Hockey Shot Tracker</h1>
+            {% endblock %}
+        </div>
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div id="footer">
+            {% block footer %}
+                &copy; Copyright 2023 by <a href="https://github.com/cdeimer/">Cullen Deimer</a>.
+            {% endblock %}
+        </div>
+    </body>
+</html>

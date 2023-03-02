@@ -1,0 +1,10 @@
+.title {
+    text-align: center;
+}
+
+.hockey_canvas {
+    margin: auto;
+    display: block;
+    width: 80%;
+    height: 34%;
+}
