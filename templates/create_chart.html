@@ -10,6 +10,8 @@
     <div class="hockey_canvas">
       <svg viewbox="-1000 -425 2000 850" id="hockey_rink">
           <rect x="-1000" y="-425" rx="100" ry="100" width="100%" height="100%" style="fill:rgb(237, 237, 255);stroke-width:3;stroke:black"/>
+          <image xlink:href="" x="-800" y="-200" width="400" height="400" opacity="0.3" id="home_team_logo"/>
+          <image xlink:href="" x="400" y="-200" width="400" height="400" opacity="0.3" id="away_team_logo"/>
           <line x1="0" y1="-425" x2="0" y2="425" style="stroke:red;stroke-width:3"/>
           <circle cx="0" cy="0" r="150" stroke="blue" stroke-width="3" fill="none"/>
           <line x1="300" y1="-425" x2="300" y2="425" style="stroke:blue;stroke-width:3"/>
@@ -21,7 +23,7 @@
 
           {% if coordinates_list %}
             {% for shot in coordinates_list %}
-              <circle cx="{{ shot[0] }}" cy="{{ shot[1] }}" r="5" fill="red"/>
+              <circle cx="{{ shot[0] }}" cy="{{ shot[1] }}" r="5" fill="red" stroke="black"/>
             {% endfor %}
           {% endif %}
       </svg>
@@ -34,6 +36,40 @@
         <br>
         <label for="chart_date">Chart Date:</label>
         <input type="date" name="chart_date" id="chart_date">
+        <br>
+        <label for="home_team">Home Team:</label>
+        <select name="home_team" id="home_team">
+          <option style="display:none;">---</option>
+          <option value="BU">Boston University</option>
+          <option value="BC">Boston College</option>
+          <option value="UConn">Connecticut</option>
+          <option value="HC">Holy Cross</option>
+          <option value="Maine">Maine</option>
+          <option value="UMass">UMass Amherst</option>
+          <option value="UML">UMass Lowell</option>
+          <option value="Merrimack">Merrimack</option>
+          <option value="UNH">New Hampshire</option>
+          <option value="NU">Northeastern</option>
+          <option value="PC">Providence</option>
+          <option value="UVM">Vermont</option>
+        </select>
+        <br>
+        <label for="away_team">Away Team:</label>
+        <select name="away_team" id="away_team">
+          <option style="display:none;">---</option>
+          <option value="BU">Boston University</option>
+          <option value="BC">Boston College</option>
+          <option value="UConn">Connecticut</option>
+          <option value="HC">Holy Cross</option>
+          <option value="Maine">Maine</option>
+          <option value="UMass">UMass Amherst</option>
+          <option value="UML">UMass Lowell</option>
+          <option value="Merrimack">Merrimack</option>
+          <option value="UNH">New Hampshire</option>
+          <option value="NU">Northeastern</option>
+          <option value="PC">Providence</option>
+          <option value="UVM">Vermont</option>
+        </select>
         <br>
         <input type="submit" value="Save Chart" name="save_chart_button" class="btn btn-primary">
         <input type="submit" value="Clear Chart" name="clear_chart_button" class="btn btn-danger">
@@ -81,6 +117,18 @@
             shot_coordinates.push([cursorpt.x, cursorpt.y, shot_color]);
             document.getElementById('shot_coordinates').value = JSON.stringify(shot_coordinates);
 
+        });
+
+        var home_team_dropdown = document.getElementById('home_team');
+        home_team_dropdown.addEventListener("change", function(evt) {
+            var home_team = home_team_dropdown.value;
+            document.getElementById('home_team_logo').setAttributeNS('http://www.w3.org/1999/xlink', 'href', "{{ url_for('static', filename='images/Hockey East Logos/') }}" + home_team + ".png");
+        });
+
+        var away_team_dropdown = document.getElementById('away_team');
+        away_team_dropdown.addEventListener("change", function(evt) {
+            var away_team = away_team_dropdown.value;
+            document.getElementById('away_team_logo').setAttributeNS('http://www.w3.org/1999/xlink', 'href', "{{ url_for('static', filename='images/Hockey East Logos/') }}" + away_team + ".png");
         });
     
     </script>
