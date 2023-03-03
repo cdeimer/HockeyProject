@@ -8,3 +8,12 @@
     width: 80%;
     height: 34%;
 }
+
+.additional_canvas_options {
+    padding-left: 10%;
+    padding-bottom: 5px;
+}
+
+.input_form {
+    padding-left: 10%;
+}

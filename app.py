@@ -1,26 +1,25 @@
 import json
 from flask import Flask, render_template, request, redirect
-import sqlite3
+from dao import get_chart_dao, save_chart_dao
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # build a graphical representation of a hockey rink
-    # and return it to the user
+    """
+    Main page of the app where the user can create a new chart
+    """
 
     return render_template('create_chart.html')
 
 @app.route('/chart/<int:chart_id>', methods=['GET'])
 def show_chart(chart_id):
-    # show the chart with the given id, the id is an integer
+    """
+    Given a chart id, return the chart to the user
+    """
 
     # get the coordinates for the given chart_id from the database
-    conn = sqlite3.connect('hockey.sqlite3')
-    c = conn.cursor()
-    c.execute('SELECT coordinates FROM charts WHERE ROWID = :chart_id', {'chart_id': chart_id})
-    coordinates = c.fetchone()[0]
-    conn.close()
+    coordinates = get_chart_dao(chart_id)
 
     print(coordinates)
     coordinates_list = json.loads(coordinates)
@@ -30,31 +29,26 @@ def show_chart(chart_id):
 
 @app.route('/clear_chart', methods=['POST'])
 def clear_chart():
-    # clear the chart
+    """
+    Clear the chart and return the user to the create chart page
+    """
 
     return redirect('/')
 
 
 @app.route('/save_chart', methods=['POST'])
 def save_chart():
+    """
+    Save a chart to the database and redirect the user to that chart's page
+    """
+    # the clear chart button hits this route as well, but we don't want to save the chart
+    if 'clear_chart_button' in request.form:
+        return redirect('/')
 
     chart_name = request.form['chart_name']
     chart_date = request.form['chart_date']
     shot_coordinates = request.form['shot_coordinates']
 
-    chart_object = {
-        'chart_name': chart_name,
-        'chart_date': chart_date,
-        'shot_coordinates': shot_coordinates
-    }
-
-    # append chart_object to the charts table in the test.db sqlite3 database
-    conn = sqlite3.connect('hockey.sqlite3')
-    c = conn.cursor()
-    c.execute('INSERT INTO charts VALUES (:chart_name, :chart_date, :shot_coordinates)', chart_object)
-    last_row_id = c.lastrowid
-    conn.commit()
-    conn.close()
-
+    last_row_id = save_chart_dao(chart_name, chart_date, shot_coordinates)
 
     return redirect(f'/chart/{last_row_id}')

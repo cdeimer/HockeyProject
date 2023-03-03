@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 
+    <div class="additional_canvas_options">
+      <button id="undo_button" class="btn btn-secondary">Undo</button>
+      <button id="goal_button" class="btn btn-success">Goal</button>
+      <button id="miss_button" class="btn btn-danger">Miss</button>
+      <button id="save_button" class="btn btn-primary">Save</button>
+    </div>
     <div class="hockey_canvas">
       <svg viewbox="-1000 -425 2000 850" id="hockey_rink">
           <rect x="-1000" y="-425" rx="100" ry="100" width="100%" height="100%" style="fill:rgb(237, 237, 255);stroke-width:3;stroke:black"/>
@@ -18,7 +24,6 @@
               <circle cx="{{ shot[0] }}" cy="{{ shot[1] }}" r="5" fill="red"/>
             {% endfor %}
           {% endif %}
-
       </svg>
     </div>
     <div class="input_form">
@@ -30,12 +35,8 @@
         <label for="chart_date">Chart Date:</label>
         <input type="date" name="chart_date" id="chart_date">
         <br>
-        <input type="submit" value="Save Chart">
-      </form>
-    </div>
-    <div class="clear_chart">
-      <form action="/clear_chart" method="post">
-        <input type="submit" value="Clear Chart">
+        <input type="submit" value="Save Chart" name="save_chart_button" class="btn btn-primary">
+        <input type="submit" value="Clear Chart" name="clear_chart_button" class="btn btn-danger">
       </form>
     </div>
     <script>
@@ -47,20 +48,37 @@
 
         var hockey_rink = document.getElementById("hockey_rink");
         var pt = hockey_rink.createSVGPoint();
+
+        var goal_button = document.getElementById('goal_button');
+        goal_button.addEventListener("click", function(evt) {
+            if (goal_button.classList.contains('active')) {
+                goal_button.classList.remove('active');
+            } else {
+                goal_button.classList.add('active');
+            }
+        });
+
         hockey_rink.addEventListener("click", function(evt) {
             pt.x = evt.clientX;
             pt.y = evt.clientY;
-
             var cursorpt =  pt.matrixTransform(hockey_rink.getScreenCTM().inverse());
+
+            var shot_color = "red";
+
+            //check if the goal button is pressed
+            if (document.getElementById('goal_button').classList.contains('active')) {
+                shot_color = "green";
+                goal_button.classList.remove('active');
+            }
 
             //draw a circle at the click location
             var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
             circle.setAttributeNS(null, "cx", cursorpt.x);
             circle.setAttributeNS(null, "cy", cursorpt.y);
             circle.setAttributeNS(null, "r", 5);
-            circle.setAttributeNS(null, "fill", "red");
+            circle.setAttributeNS(null, "fill", shot_color);
             hockey_rink.appendChild(circle);
-            shot_coordinates.push([cursorpt.x, cursorpt.y]);
+            shot_coordinates.push([cursorpt.x, cursorpt.y, shot_color]);
             document.getElementById('shot_coordinates').value = JSON.stringify(shot_coordinates);
 
         });

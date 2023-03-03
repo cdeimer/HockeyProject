@@ -15,7 +15,7 @@
 
           {% if coordinates_list %}
             {% for shot in coordinates_list %}
-              <circle cx="{{ shot[0] }}" cy="{{ shot[1] }}" r="5" fill="red"/>
+              <circle cx="{{ shot[0] }}" cy="{{ shot[1] }}" r="5" fill="{{ shot[2] }}"/>
             {% endfor %}
           {% endif %}
       </svg>
