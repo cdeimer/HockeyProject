@@ -1,0 +1,26 @@
+{% macro rink_design() %}
+<line x1="0" y1="-425" x2="0" y2="425" style="stroke:red;stroke-width:3" />
+<circle cx="0" cy="0" r="150" stroke="blue" stroke-width="3" fill="none" />
+<line x1="300" y1="-425" x2="300" y2="425" style="stroke:blue;stroke-width:3" />
+<line x1="-300" y1="-425" x2="-300" y2="425" style="stroke:blue;stroke-width:3" />
+<line x1="900" y1="-425" x2="900" y2="425" style="stroke:red;stroke-width:3" />
+<line x1="-900" y1="-425" x2="-900" y2="425" style="stroke:red;stroke-width:3" />
+<rect x="-943" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey" />
+<rect x="903" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey" />
+{% endmacro %}
+
+{% macro team_dropdown() %}
+<option value="" style="display:none;">---</option>
+<option value="BU">Boston University</option>
+<option value="BC">Boston College</option>
+<option value="UConn">Connecticut</option>
+<option value="HC">Holy Cross</option>
+<option value="Maine">Maine</option>
+<option value="UMass">UMass Amherst</option>
+<option value="UML">UMass Lowell</option>
+<option value="Merrimack">Merrimack</option>
+<option value="UNH">New Hampshire</option>
+<option value="NU">Northeastern</option>
+<option value="PC">Providence</option>
+<option value="UVM">Vermont</option>
+{% endmacro %}

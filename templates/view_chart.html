@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from 'macros.html' import rink_design %}
 {% block content %}
 
 <div class="hockey_canvas">
@@ -13,15 +14,7 @@
         <image xlink:href="/static/images/he_logos/{{ away_team }}.png" x="400" y="-200" width="400" height="400"
             opacity="0.3" id="away_team_logo" />
         {% endif %}
-        <line x1="0" y1="-425" x2="0" y2="425" style="stroke:red;stroke-width:3" />
-        <circle cx="0" cy="0" r="150" stroke="blue" stroke-width="3" fill="none" />
-        <line x1="300" y1="-425" x2="300" y2="425" style="stroke:blue;stroke-width:3" />
-        <line x1="-300" y1="-425" x2="-300" y2="425" style="stroke:blue;stroke-width:3" />
-        <line x1="900" y1="-425" x2="900" y2="425" style="stroke:red;stroke-width:3" />
-        <line x1="-900" y1="-425" x2="-900" y2="425" style="stroke:red;stroke-width:3" />
-        <rect x="-943" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey" />
-        <rect x="903" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey" />
-
+        {{ rink_design() }}
         {% if coordinates_list %}
         {% for shot in coordinates_list %}
         <circle cx="{{ shot[0] }}" cy="{{ shot[1] }}" r="7" fill="{{ shot[2] }}" stroke="black" />

@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from 'macros.html' import rink_design, team_dropdown %}
 {% block content %}
 
 <div class="additional_canvas_options">
@@ -11,14 +12,7 @@
       style="fill:rgb(237, 237, 255);stroke-width:3;stroke:black" />
     <image xlink:href="" x="-800" y="-200" width="400" height="400" opacity="0.3" id="home_team_logo" />
     <image xlink:href="" x="400" y="-200" width="400" height="400" opacity="0.3" id="away_team_logo" />
-    <line x1="0" y1="-425" x2="0" y2="425" style="stroke:red;stroke-width:3" />
-    <circle cx="0" cy="0" r="150" stroke="blue" stroke-width="3" fill="none" />
-    <line x1="300" y1="-425" x2="300" y2="425" style="stroke:blue;stroke-width:3" />
-    <line x1="-300" y1="-425" x2="-300" y2="425" style="stroke:blue;stroke-width:3" />
-    <line x1="900" y1="-425" x2="900" y2="425" style="stroke:red;stroke-width:3" />
-    <line x1="-900" y1="-425" x2="-900" y2="425" style="stroke:red;stroke-width:3" />
-    <rect x="-943" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey" />
-    <rect x="903" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey" />
+    {{ rink_design() }}
   </svg>
 </div>
 <div class="input_form">
@@ -32,36 +26,12 @@
     <br>
     <label for="home_team">Home Team:</label>
     <select name="home_team" id="home_team">
-      <option value="" style="display:none;">---</option>
-      <option value="BU">Boston University</option>
-      <option value="BC">Boston College</option>
-      <option value="UConn">Connecticut</option>
-      <option value="HC">Holy Cross</option>
-      <option value="Maine">Maine</option>
-      <option value="UMass">UMass Amherst</option>
-      <option value="UML">UMass Lowell</option>
-      <option value="Merrimack">Merrimack</option>
-      <option value="UNH">New Hampshire</option>
-      <option value="NU">Northeastern</option>
-      <option value="PC">Providence</option>
-      <option value="UVM">Vermont</option>
+      {{ team_dropdown() }}
     </select>
     <br>
     <label for="away_team">Away Team:</label>
     <select name="away_team" id="away_team">
-      <option value="" style="display:none;">---</option>
-      <option value="BU">Boston University</option>
-      <option value="BC">Boston College</option>
-      <option value="UConn">Connecticut</option>
-      <option value="HC">Holy Cross</option>
-      <option value="Maine">Maine</option>
-      <option value="UMass">UMass Amherst</option>
-      <option value="UML">UMass Lowell</option>
-      <option value="Merrimack">Merrimack</option>
-      <option value="UNH">New Hampshire</option>
-      <option value="NU">Northeastern</option>
-      <option value="PC">Providence</option>
-      <option value="UVM">Vermont</option>
+      {{ team_dropdown() }}
     </select>
     <br>
     <input type="submit" value="Save Chart" name="save_chart_button" class="btn btn-primary">
@@ -73,10 +43,6 @@
   document.getElementById('chart_date').valueAsDate = new Date();
 
   var shot_coordinates = [];
-
-
-  var hockey_rink = document.getElementById("hockey_rink");
-  var pt = hockey_rink.createSVGPoint();
 
   var goal_button = document.getElementById('goal_button');
   goal_button.addEventListener("click", function (evt) {
@@ -97,9 +63,12 @@
     }
   });
 
+  var hockey_rink = document.getElementById("hockey_rink");
+  var pt = hockey_rink.createSVGPoint();
   hockey_rink.addEventListener("click", function (evt) {
     pt.x = evt.clientX;
     pt.y = evt.clientY;
+    // transform mouse position to svg coordinates
     var cursorpt = pt.matrixTransform(hockey_rink.getScreenCTM().inverse());
 
     var shot_color = "red";
@@ -118,6 +87,8 @@
     circle.setAttributeNS(null, "fill", shot_color);
     circle.setAttributeNS(null, "stroke", "black");
     hockey_rink.appendChild(circle);
+
+    //add the new coordinates to the shot_coordinates array
     shot_coordinates.push([cursorpt.x, cursorpt.y, shot_color]);
     document.getElementById('shot_coordinates').value = JSON.stringify(shot_coordinates);
 
