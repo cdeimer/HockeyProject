@@ -44,13 +44,7 @@ def save_chart():
     # the clear chart button hits this route as well, but we don't want to save the chart
     if 'clear_chart_button' in request.form:
         return redirect('/')
-
-    chart_name = request.form['chart_name']
-    chart_date = request.form['chart_date']
-    shot_coordinates = request.form['shot_coordinates']
-    home_team = request.form['home_team']
-    away_team = request.form['away_team']
-
-    last_row_id = save_chart_dao(chart_name, chart_date, shot_coordinates, home_team, away_team)
+    
+    last_row_id = save_chart_dao(request.form)
 
     return redirect(f'/chart/{last_row_id}')

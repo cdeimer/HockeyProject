@@ -14,20 +14,11 @@ def get_chart_info(chart_id):
 
     return chart_info
 
-def save_chart_dao(chart_name, chart_date, shot_coordinates, home_team, away_team):
-    chart_object = {
-        'chart_name': chart_name,
-        'chart_date': chart_date,
-        'shot_coordinates': shot_coordinates,
-        'home_team': home_team,
-        'away_team': away_team
-    }
-
-    chart_object = clean_chart_object(chart_object)
+def save_chart_dao(chart_info):
 
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute('INSERT INTO charts VALUES (:chart_name, :chart_date, :shot_coordinates, :home_team, :away_team)', chart_object)
+    c.execute('INSERT INTO charts VALUES (:chart_name, :chart_date, :shot_coordinates, :home_team, :away_team)', clean_chart_object(chart_info))
     last_row_id = c.lastrowid
     conn.commit()
     conn.close()
@@ -36,8 +27,11 @@ def save_chart_dao(chart_name, chart_date, shot_coordinates, home_team, away_tea
 
 # replace all values in the object with None if they are falsy
 def clean_chart_object(chart_object):
+    clean_object = {}
     for key, value in chart_object.items():
-        if not value:
-            chart_object[key] = None
+        if value:
+            clean_object[key] = value
+        else:
+            clean_object[key] = None
 
-    return chart_object
+    return clean_object

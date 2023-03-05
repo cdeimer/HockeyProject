@@ -26,8 +26,6 @@
 <div class="input_form">
   <form action="/save_chart" method="post">
     <input type="hidden" name="shot_coordinates" id="shot_coordinates">
-    <input type="hidden" name="home_team" id="home_team_input">
-    <input type="hidden" name="away_team" id="away_team_input">
     <label for="chart_name">Chart Name:</label>
     <input type="text" name="chart_name" id="chart_name">
     <br>
@@ -36,7 +34,7 @@
     <br>
     <label for="home_team">Home Team:</label>
     <select name="home_team" id="home_team">
-      <option style="display:none;">---</option>
+      <option value="" style="display:none;">---</option>
       <option value="BU">Boston University</option>
       <option value="BC">Boston College</option>
       <option value="UConn">Connecticut</option>
@@ -53,7 +51,7 @@
     <br>
     <label for="away_team">Away Team:</label>
     <select name="away_team" id="away_team">
-      <option style="display:none;">---</option>
+      <option value="" style="display:none;">---</option>
       <option value="BU">Boston University</option>
       <option value="BC">Boston College</option>
       <option value="UConn">Connecticut</option>
@@ -121,14 +119,12 @@
   home_team_dropdown.addEventListener("change", function (evt) {
     var home_team = home_team_dropdown.value;
     document.getElementById('home_team_logo').setAttributeNS('http://www.w3.org/1999/xlink', 'href', "{{ url_for('static', filename='images/he_logos/') }}" + home_team + ".png");
-    document.getElementById('home_team_input').value = home_team;
   });
 
   var away_team_dropdown = document.getElementById('away_team');
   away_team_dropdown.addEventListener("change", function (evt) {
     var away_team = away_team_dropdown.value;
     document.getElementById('away_team_logo').setAttributeNS('http://www.w3.org/1999/xlink', 'href', "{{ url_for('static', filename='images/he_logos/') }}" + away_team + ".png");
-    document.getElementById('away_team_input').value = away_team;
   });
 
 </script>
