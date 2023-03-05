@@ -20,17 +20,13 @@
           <line x1="-900" y1="-425" x2="-900" y2="425" style="stroke:red;stroke-width:3"/>
           <rect x="-943" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey"/>
           <rect x="903" y1="-30" width="40" height="60" style="fill:grey;stroke-width:3;stroke:grey"/>
-
-          {% if coordinates_list %}
-            {% for shot in coordinates_list %}
-              <circle cx="{{ shot[0] }}" cy="{{ shot[1] }}" r="5" fill="red" stroke="black"/>
-            {% endfor %}
-          {% endif %}
       </svg>
     </div>
     <div class="input_form">
       <form action="/save_chart" method="post">
         <input type="hidden" name="shot_coordinates" id="shot_coordinates">
+        <input type="hidden" name="home_team" id="home_team_input">
+        <input type="hidden" name="away_team" id="away_team_input">
         <label for="chart_name">Chart Name:</label>
         <input type="text" name="chart_name" id="chart_name">
         <br>
@@ -111,8 +107,9 @@
             var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
             circle.setAttributeNS(null, "cx", cursorpt.x);
             circle.setAttributeNS(null, "cy", cursorpt.y);
-            circle.setAttributeNS(null, "r", 5);
+            circle.setAttributeNS(null, "r", 7);
             circle.setAttributeNS(null, "fill", shot_color);
+            circle.setAttributeNS(null, "stroke", "black");
             hockey_rink.appendChild(circle);
             shot_coordinates.push([cursorpt.x, cursorpt.y, shot_color]);
             document.getElementById('shot_coordinates').value = JSON.stringify(shot_coordinates);
@@ -122,13 +119,15 @@
         var home_team_dropdown = document.getElementById('home_team');
         home_team_dropdown.addEventListener("change", function(evt) {
             var home_team = home_team_dropdown.value;
-            document.getElementById('home_team_logo').setAttributeNS('http://www.w3.org/1999/xlink', 'href', "{{ url_for('static', filename='images/Hockey East Logos/') }}" + home_team + ".png");
+            document.getElementById('home_team_logo').setAttributeNS('http://www.w3.org/1999/xlink', 'href', "{{ url_for('static', filename='images/he_logos/') }}" + home_team + ".png");
+            document.getElementById('home_team_input').value = home_team;
         });
 
         var away_team_dropdown = document.getElementById('away_team');
         away_team_dropdown.addEventListener("change", function(evt) {
             var away_team = away_team_dropdown.value;
-            document.getElementById('away_team_logo').setAttributeNS('http://www.w3.org/1999/xlink', 'href', "{{ url_for('static', filename='images/Hockey East Logos/') }}" + away_team + ".png");
+            document.getElementById('away_team_logo').setAttributeNS('http://www.w3.org/1999/xlink', 'href', "{{ url_for('static', filename='images/he_logos/') }}" + away_team + ".png");
+            document.getElementById('away_team_input').value = away_team;
         });
     
     </script>

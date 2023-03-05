@@ -1,6 +1,6 @@
 import json
 from flask import Flask, render_template, request, redirect
-from dao import get_chart_dao, save_chart_dao
+from dao import get_chart_info, save_chart_dao
 
 app = Flask(__name__)
 
@@ -19,13 +19,13 @@ def show_chart(chart_id):
     """
 
     # get the coordinates for the given chart_id from the database
-    coordinates = get_chart_dao(chart_id)
+    coordinates, home_team, away_team = get_chart_info(chart_id)
 
-    print(coordinates)
-    coordinates_list = json.loads(coordinates)
-    print(coordinates_list)
-
-    return render_template('view_chart.html', chart_id=chart_id, coordinates_list=coordinates_list)
+    coordinates_list = []
+    if coordinates:
+        coordinates_list = json.loads(coordinates)
+    
+    return render_template('view_chart.html', chart_id=chart_id, coordinates_list=coordinates_list, home_team=home_team, away_team=away_team)
 
 @app.route('/clear_chart', methods=['POST'])
 def clear_chart():
@@ -48,7 +48,9 @@ def save_chart():
     chart_name = request.form['chart_name']
     chart_date = request.form['chart_date']
     shot_coordinates = request.form['shot_coordinates']
+    home_team = request.form['home_team']
+    away_team = request.form['away_team']
 
-    last_row_id = save_chart_dao(chart_name, chart_date, shot_coordinates)
+    last_row_id = save_chart_dao(chart_name, chart_date, shot_coordinates, home_team, away_team)
 
     return redirect(f'/chart/{last_row_id}')
