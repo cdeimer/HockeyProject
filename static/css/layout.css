@@ -98,3 +98,19 @@ select:hover {
     display: block;
     padding-top: 20px;
 }
+
+#footer {
+    position: fixed;
+    background-color: #ededff;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(1, 1, 1, 0.2);
+    padding-bottom: 1px;
+    border: 1px solid rgba(0, 0, 255, 0);
+    font-size: 18px;
+    font-weight: 100;
+    margin-top: 15px;
+}
