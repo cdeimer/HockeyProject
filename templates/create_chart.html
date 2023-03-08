@@ -18,24 +18,22 @@
 <div class="input_form">
   <form action="/save_chart" method="post">
     <input type="hidden" name="shot_coordinates" id="shot_coordinates">
-    <label for="chart_name">Chart Name:</label>
+    <label for="chart_name">Chart Name</label>
     <input type="text" name="chart_name" id="chart_name">
-    <br>
-    <label for="chart_date">Chart Date:</label>
+    <label for="chart_date">Chart Date</label>
     <input type="date" name="chart_date" id="chart_date">
-    <br>
-    <label for="home_team">Home Team:</label>
+    <label for="home_team">Home Team</label>
     <select name="home_team" id="home_team">
       {{ team_dropdown() }}
     </select>
-    <br>
-    <label for="away_team">Away Team:</label>
+    <label for="away_team">Away Team</label>
     <select name="away_team" id="away_team">
       {{ team_dropdown() }}
     </select>
-    <br>
-    <input type="submit" value="Save Chart" name="save_chart_button" class="btn btn-primary">
-    <input type="submit" value="Clear Chart" name="clear_chart_button" class="btn btn-danger">
+    <div class="buttons">
+      <input type="submit" value="Save Chart" name="save_chart_button" class="btn btn-primary">
+      <input type="submit" value="Clear Chart" name="clear_chart_button" class="btn btn-danger">
+  </div>
   </form>
 </div>
 <script src="{{url_for('static', filename='js/create_chart.js')}}"></script>
