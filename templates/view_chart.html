@@ -25,9 +25,17 @@
     <h2>Now Viewing: {{ chart_id }}</h2>
     {% endif %}
 </div>
-<div class="clear_chart">
-    <form action="/clear_chart" method="post">
-        <input type="submit" value="Create New Chart">
-    </form>
+<div class="container">
+    <div class="clear_chart">
+        <form action="/clear_chart" method="post">
+            <input type="submit" value="Create New Chart">
+        </form>
+    </div>
+    <div class="export_chart">
+        <form action="/export_chart" method="get">
+            <input type="hidden" name="chart_id" value="{{ chart_id }}">
+            <input type="submit" value="Export Chart">
+        </form>
+    </div>
 </div>
 {% endblock %}

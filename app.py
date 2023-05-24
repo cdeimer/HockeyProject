@@ -1,6 +1,9 @@
+import io
 import json
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 from dao import get_chart_info, save_chart_dao
+
+from plot_export import plot_export
 
 app = Flask(__name__)
 
@@ -13,7 +16,7 @@ def index():
     return render_template('create_chart.html')
 
 @app.route('/chart/<int:chart_id>', methods=['GET'])
-def show_chart(chart_id):
+def show_chart(chart_id, image_binary=None):
     """
     Given a chart id, return the chart to the user
     """
@@ -25,7 +28,7 @@ def show_chart(chart_id):
     if coordinates:
         coordinates_list = json.loads(coordinates)
     
-    return render_template('view_chart.html', chart_id=chart_id, coordinates_list=coordinates_list, home_team=home_team, away_team=away_team)
+    return render_template('view_chart.html', chart_id=chart_id, coordinates_list=coordinates_list, home_team=home_team, away_team=away_team, image=image_binary)
 
 @app.route('/clear_chart', methods=['POST'])
 def clear_chart():
@@ -48,3 +51,16 @@ def save_chart():
     last_row_id = save_chart_dao(request.form)
 
     return redirect(f'/chart/{last_row_id}')
+
+@app.route('/export_chart', methods=['GET'])
+def export_chart():
+    chart_id = request.args.get('chart_id')
+    image_binary = plot_export(chart_id)
+
+    # send the image binary as a file to the client
+    return send_file(
+        io.BytesIO(image_binary.getvalue()),
+        mimetype='image/png',
+        as_attachment=True,
+        download_name=f'chart_{chart_id}.png'
+    )
