@@ -11,9 +11,8 @@ A web application for plotting shots made during a hockey game.
 - `flask run [--debug]`
 
 ## To Do
-- Export as PNG
 - Face off circles on the rink
-- View past charts
+- Rework db, make a separate table for coordinates
 - Get real logos (maybe)
 - More chart fields (game notes)
   - Make input form look good
