@@ -1,7 +1,7 @@
 import io
 import json
 from flask import Flask, render_template, request, redirect, send_file
-from dao import get_chart_info, save_chart_dao
+from dao import get_chart_info, get_all_charts, save_chart_dao
 
 from plot_export import plot_export
 
@@ -51,6 +51,26 @@ def save_chart():
     last_row_id = save_chart_dao(request.form)
 
     return redirect(f'/chart/{last_row_id}')
+
+@app.route('/list_charts', methods=['GET'])
+def list_charts():
+    """
+    Show a list of all charts in the database
+    """
+
+    charts = get_all_charts()
+    new_charts = []
+    for chart in charts:
+        id, name, date, home_team, away_team = chart
+        new_charts.append({
+            'chart_id': id,
+            'chart_name': name,
+            'chart_date': date,
+            'home_team': home_team,
+            'away_team': away_team
+        })
+    print(new_charts)
+    return render_template('list.html', charts=new_charts)
 
 @app.route('/export_chart', methods=['GET'])
 def export_chart():

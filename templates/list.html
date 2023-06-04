@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Charts</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Home Team</th>
+            <th scope="col">Away Team</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for chart in charts[::-1] %}
+          <tr>
+            <td>
+                <a href="/chart/{{ chart.chart_id }}">{{ chart.chart_name }}</a>
+            </td>
+            <td>{{ chart.chart_date }}</td>
+            <td>{{ chart.home_team }}</td>
+            <td>{{ chart.away_team }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

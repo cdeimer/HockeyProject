@@ -14,6 +14,15 @@ def get_chart_info(chart_id):
 
     return chart_info
 
+def get_all_charts():
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT ROWID AS chart_id, name AS chart_name, date AS chart_date, home_team, away_team FROM charts')
+    charts = c.fetchall()
+    conn.close()
+
+    return charts
+
 def save_chart_dao(chart_info):
 
     conn = get_db_connection()

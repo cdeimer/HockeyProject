@@ -29,6 +29,12 @@ body {
     margin-bottom: 35px;
 }
 
+.navbar {
+    background-color: #ededff;
+    border: 2px solid #dcdcff;
+    margin-bottom: 20px;
+}
+
 form {
     background-color: #ededff;
     border: 2px solid #dcdcff;
